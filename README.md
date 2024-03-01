@@ -5,8 +5,8 @@ Runhouse example notebooks.
 
 1. Create new or update existing `.ipynb` notebook file, and put it in the proper subdirectory folder.
 
-2. Generate the `.rst` file used for docs generation using the `nb_convert.py` script. The script will
-   automatically put the rst file in the corresponding folder in the runhouse repo, so you will need to
+2. Generate the `.rst` (docs) or `.py` (examples) file used for docs generation using the `nb_convert.py` script.
+   The script will automatically put the rst file in the corresponding folder in the runhouse repo, so you will need to
    have [run-house/runhouse](https://github.com/run-house/runhouse) cloned down as well.
 
    From the notebooks git root:
@@ -14,15 +14,16 @@ Runhouse example notebooks.
     ```CLI
     python nb_convert.py \
         --files <path_to_ipynb> \
-        --rh-repo <path_to_local_rh_git_folder>
+        --rh-repo <path_to_local_rh_git_folder> \
+        --format <rst or python>
     ```
 
-   The `--files` arg can take in multiple file paths, or if left empty, will perform the `.rst` conversion
+   The `--files` arg can take in multiple file paths, or if left empty, will perform the conversion
    for all notebooks in the repo.
 
 3. Create two PRs:
 
    - `notebooks` repo: Add and commit the updated `.ipynb` file.
-   - `runhouse` repo: Add and commit the generated `.rst` file.
+   - `runhouse` repo: Add and commit the generated `.rst` or `.py` file.
 
    Make sure that any PR changes and updates are synced between the two repos.

@@ -47,10 +47,16 @@ alt="Open In Colab"/></a></p>\n',
         file.writelines(data)
 
 
-def convert_to_rst(ipynb_file, dest_folder):
-    subprocess.run(f"jupyter nbconvert --to rst {ipynb_file}", shell=True)
+def convert_to_rst(format, ipynb_file, dest_folder):
+    extension = {
+        "rst": ".rst",
+        "python": ".py",
+        "markdown": ".md",
+    }
 
-    output_path = ipynb_file.replace(".ipynb", ".rst")
+    subprocess.run(f"jupyter nbconvert --to {format} {ipynb_file}", shell=True)
+
+    output_path = ipynb_file.replace(".ipynb", extension[format])
     target_path = os.path.join(
         dest_folder, output_path.replace("docs/", "docs/tutorials/")
     )
@@ -81,17 +87,24 @@ if __name__ == "__main__":
         default="../runhouse",
         help="Path to runhouse github repo, where the formatted rst will automatically be put into the correct folder.",
     )
+    parser.add_argument(
+        "--format",
+        default="rst",
+        help="Format to convert the ipynb to. Currently supported options: [rst, python]",
+    )
 
     args = parser.parse_args()
 
     files = args.files or Path(os.getcwd()).rglob("*.ipynb")
     dest_folder = args.rh_repo
+    format = args.format
 
     if not os.path.exists(dest_folder):
         raise ValueError(f"Please pass in a valid path for the runhouse git repo, using the --rh-repo argument.")
 
     for ipynb_file in files:
         ipynb_file = str(os.path.relpath(ipynb_file))
-        rst_file = convert_to_rst(ipynb_file, dest_folder)
-        reformat_rst_file(rst_file, ipynb_file)
+        rst_file = convert_to_rst(format, ipynb_file, dest_folder)
+        if format == "rst":
+            reformat_rst_file(rst_file, ipynb_file)
         run_precommit(rst_file, dest_folder)
