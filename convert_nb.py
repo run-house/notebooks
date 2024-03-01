@@ -54,7 +54,7 @@ def convert_to_rst(format, ipynb_file, dest_folder):
         "markdown": ".md",
     }
 
-    subprocess.run(f"jupyter nbconvert --to {format} {ipynb_file}", shell=True)
+    subprocess.run(f"jupyter nbconvert --to {format} {'--config nbconvert_config.py' if format == 'python' else ''} {ipynb_file}", shell=True)
 
     output_path = ipynb_file.replace(".ipynb", extension[format])
     target_path = os.path.join(
