@@ -27,3 +27,9 @@ Runhouse example notebooks.
    - `runhouse` repo: Add and commit the generated `.rst` or `.py` file.
 
    Make sure that any PR changes and updates are synced between the two repos.
+
+**Note:** If you are converting to a `.rst` file you will need to have `pandoc` installed. You can install it with:
+
+```CLI
+brew install pandoc
+```
